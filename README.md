@@ -258,3 +258,32 @@ GET api/user/task/{taskId}
   }
 ]
 ```
+### Instlation in local machine
+- Using H2 database to easy install in local machine (we can use any database, just change configurations in application.priorities and add derviver connector to pom file)
+- Application will automatically create schema
+- Set environment variables
+ 
+   - DATABASE_URL
+   
+   - DATABASE_DRIVER_CLASS_NAME
+   
+   - DATABASE_USER_NAME
+   
+   - DATABASE_PASSWORD
+   
+   - EMAIL_SERVER_HOST
+   
+   - EMAIL_SERVER_PORT
+   
+   - EMAIL_USER_NAME
+   
+   - EMAIL_PASSWORD
+   
+ - Run Application 
+ ```plaintext
+ java -jar taskManagmentSystem-1.0.0.jar
+```
+- Use API and make sure you can call defferent API 
+
+   
+   
