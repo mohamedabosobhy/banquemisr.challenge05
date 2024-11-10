@@ -21,7 +21,7 @@ public class PedingTasksNotification {
 
     @Autowired
     EmailService emailService;
-    @Scheduled(cron = "0 0/1 * * * ?") // Every 5 minutes
+    @Scheduled(cron = "0 0/5 * * * ?") // Every 5 minutes
     public void scheduleTaskWithCronExpression() {
         LocalDateTime today = LocalDateTime.now().with(LocalTime.MAX);
         LocalDateTime twoDaysAfter = today.plusDays(2);

@@ -23,12 +23,7 @@ public class UserController {
     private TaskService taskService;
 
 
-    @GetMapping("/dashboard")
 
-    public String userDashboard() {
-        taskService.clearData();
-        return "Welcome to the User Dashboard!";
-    }
     @PostMapping("/register")
     public String register(@RequestBody UserRequest user) {
         return userService.register(user);
@@ -48,11 +43,7 @@ public class UserController {
     public TaskResponse updateTask(@RequestBody TaskRequest taskRequest) throws TaskManagementException {
         return taskService.updateTask(taskRequest);
     }
-    @DeleteMapping("/task/{id}")
-    @AuthAnnotation
-    public TaskResponse deleteTask(@PathVariable Long id) throws TaskManagementException {
-        return taskService.deleteTask(id);
-    }
+
     @GetMapping("/task")
     public List<TaskResponse> inbox( @RequestParam(required = false) String title,
                                      @RequestParam(required = false) Task.Status status,

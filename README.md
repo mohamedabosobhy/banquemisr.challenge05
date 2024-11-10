@@ -6,7 +6,7 @@ authorization, validation, and other features.
 
 ## System Archticure 
 
-### DataBase Relation 
+### DataBase Archticure 
 This project defines the structure of a Task Management System using three main tables: app_user, tasks, and task_history. Below is a detailed explanation of the tables and their relationships, along with a visual representation.
 
 #### 1. app_user Table
@@ -37,4 +37,178 @@ This project defines the structure of a Task Management System using three main 
 - The task_history table references app_user(id) to log which user performed an action on a task.
 #### ER Diagram
 ![ER](/Image/relationDigram.png)
+#### Database Script
+This script sets up the initial database schema and populates it with sample data.
 
+```sql
+-- Creating the User table
+CREATE TABLE app_user (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
+
+-- Creating the Task table
+CREATE TABLE tasks (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR(1000),
+    status ENUM('TODO', 'IN_PROGRESS', 'DONE') NOT NULL,
+    priority ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+    dueDate DATETIME,
+    createdDate DATETIME,
+    user_id BIGINT NOT NULL,
+    created_user_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES app_user(id),
+    FOREIGN KEY (created_user_id) REFERENCES app_user(id)
+);
+
+-- Creating the History table
+CREATE TABLE task_history (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    user_id BIGINT NOT NULL,
+    taskId BIGINT,
+    description VARCHAR(1000),
+    date DATETIME,
+    action VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES app_user(id)
+);
+```
+### API Archticure
+This API allows users to manage thier account and thier tasks.
+
+#### Base URL 
+/api
+
+#### Authentication
+
+This API uses Bearer Token authentication. Include your token in the `Authorization` header:
+
+Authorization: Bearer YOUR_ACCESS_TOKEN
+
+#### Endpoints
+
+- Authnication API
+```plaintext
+POST /api/auth
+```
+**Description**: Api will return the authentication token and user roles if successful authentication
+
+**Request Body**:
+```json
+{
+    "username":"username",
+    "password":"password"
+    
+}
+```
+
+**Response**:
+```json
+{
+    "token": "YOUR_ACCESS_TOKEN",
+    "role": "user"
+}
+```
+- Register User API
+```plaintext
+POST /api/user/register
+```
+**Description**: user can register in application using this API 
+
+**Request Body**:
+```json
+{
+    "username":"username",
+    "password":"password",
+    "role":"user",
+    "email":"mail@test.com"
+}
+```
+
+**Response**:
+```json
+User registered successfully!
+```
+- Create Task API
+```plaintext
+POST /api/user/task
+```
+**Description**: user can create task and assign user. 
+
+**Request Body**:
+```json
+{
+  "title": "task title", //String 
+  "description": "task description", //String 
+  "status": "IN_PROGRESS", // Enum values(TODO,IN_PROGRESS,DONE)
+  "priority": "MEDIUM", // Enum (LOW,MEDIUM,HIGH)
+  "dueDate": "2024-11-12 20:15:03", //Date Time 
+  "user_id": "1" // Long assgin user Id 
+}
+```
+
+**Response**:
+```json
+{
+  "id":1
+  "title": "task title",
+  "description": "task description",
+  "status": "IN_PROGRESS", 
+  "priority": "MEDIUM",
+  "dueDate": "2024-11-12 20:15:03",
+  "user_id": "1"
+}
+```
+- Update Task API
+```plaintext
+PUT /api/user/task
+```
+**Description**: user can update task. 
+
+**Request Body**:
+```json
+{
+  "title": "task title", //String 
+  "description": "task description", //String 
+  "status": "IN_PROGRESS", // Enum values(TODO,IN_PROGRESS,DONE)
+  "priority": "MEDIUM", // Enum (LOW,MEDIUM,HIGH)
+  "dueDate": "2024-11-12 20:15:03", //Date Time 
+  "user_id": "1" // Long assgin user Id
+  "id":1 //Id of updated task
+}
+```
+
+**Response**:
+```json
+{
+  "id":1
+  "title": "task title",
+  "description": "task description",
+  "status": "IN_PROGRESS", 
+  "priority": "MEDIUM",
+  "dueDate": "2024-11-12 20:15:03",
+  "user_id": "1"
+}
+```
+- Delete Task API
+```plaintext
+DELETE api/admin/task/{taskId}
+```
+**Description**: user who has role admin can delete the task. 
+
+
+**Response**:
+```json
+{
+  "id":1
+  "title": "task title",
+  "description": "task description",
+  "status": "IN_PROGRESS", 
+  "priority": "MEDIUM",
+  "dueDate": "2024-11-12 20:15:03",
+  "user_id": "1"
+}
+```

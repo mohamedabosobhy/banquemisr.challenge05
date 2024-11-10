@@ -60,11 +60,41 @@ public class TaskService {
                 .build());
         historyRepository.save(History.builder().taskId(task.getId()).user(createdUser).description(mapper.taskToTaskResponse(task).toString()).action("Created").date(LocalDateTime.now()).build());
         try {
-            emailService.sendEmail(new String[]{task.getUser().getEmail()} ,"New Task ( ".concat(task.getTitle()).concat(" ) Assign  for you "),"Task ID : ".concat(task.getId().toString()).concat(" Assign  for you"));
+            emailService.sendEmail(new String[]{task.getUser().getEmail()} ,"New Task Created:["+task.getTitle()+"]",getCreateTaskMessage(task));
         } catch (MessagingException e) {
             System.err.println(e);
         }
         return mapper.taskToTaskResponse(task);
+    }
+    private String getCreateTaskMessage(Task task) {
+        return
+                "    <p>Hello "+task.getUser().getUsername()+",</p>\n" +
+                "    <p>We would like to inform you that a new task has been created in the system:</p>\n" +
+                "    <ul>\n" +
+                "        <li><strong>Task Name/ID:</strong> ["+task.getTitle()+"/"+task.getId()+"]</li>\n" +
+                "        <li><strong>Description:</strong> ["+task.getDescription()+"]</li>\n" +
+                "        <li><strong>Assigned To:</strong> ["+task.getUser().getUsername()+"]</li>\n" +
+                "        <li><strong>Due Date:</strong> ["+task.getDueDate()+"]</li>\n" + "" +
+                "         <li><strong>Status:</strong> ["+task.getStatus()+"]</li>\n" +
+                "    </ul>\n" +
+                "    <p>Please review the task and proceed with the necessary actions. If you have any questions or need further information, feel free to reach out.</p>\n" +
+                "    <p>Thank you!</p>\n" +
+                "    <p>Best regards,</p>\n";
+    }
+    private String getUpdateTaskMessage(Task task) {
+        return
+                "    <p>Hello "+task.getUser().getUsername()+",</p>\n" +
+                        "    <p>This is to inform you that the following task has been updated:</p>\n" +
+                        "    <ul>\n" +
+                        "        <li><strong>Task Name/ID:</strong> ["+task.getTitle()+"/"+task.getId()+"]</li>\n" +
+                        "        <li><strong>Description:</strong> ["+task.getDescription()+"]</li>\n" +
+                        "        <li><strong>Assigned To:</strong> ["+task.getUser().getUsername()+"]</li>\n" +
+                        "        <li><strong>Due Date:</strong> ["+task.getDueDate()+"]</li>\n" + "" +
+                        "         <li><strong>Status:</strong> ["+task.getStatus()+"]</li>\n" +
+                        "    </ul>\n" +
+                        "    <p>Please review the task and proceed with the necessary actions. If you have any questions or need further information, feel free to reach out.</p>\n" +
+                        "    <p>Thank you!</p>\n" +
+                        "    <p>Best regards,</p>\n";
     }
     public TaskResponse updateTask(TaskRequest  taskRequest) throws TaskManagementException {
         User updatedUser = userRepository.getReferenceById(Long.parseLong(getUserId()));
@@ -78,6 +108,11 @@ public class TaskService {
         task.setDueDate(taskRequest.getDueDate());
         taskRepository.save(task);
         historyRepository.save(History.builder().taskId(task.getId()).user(updatedUser).description(mapper.taskToTaskResponse(task).toString()).action("Updated").date(LocalDateTime.now()).build());
+        try {
+            emailService.sendEmail(new String[]{task.getUser().getEmail()} ,"Task Updated:["+task.getTitle()+"]",getUpdateTaskMessage(task));
+        } catch (MessagingException e) {
+            System.err.println(e);
+        }
         return mapper.taskToTaskResponse(task);
     }
     public TaskResponse deleteTask(Long taskId) throws TaskManagementException {
