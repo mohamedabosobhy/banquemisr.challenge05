@@ -212,3 +212,49 @@ DELETE api/admin/task/{taskId}
   "user_id": "1"
 }
 ```
+- Get Task API
+```plaintext
+GET api/user/task/{taskId}
+```
+**Description**: This endpoint retrieves a list of tasks based on optional filtering criteria provided as query parameters.
+
+**Query Parameters:**
+
+**title** (String, optional): Filter tasks by title.
+
+**status** (Task.Status, optional): Filter tasks by their status (e.g., PENDING, COMPLETED).
+
+**priority** (Task.Priority, optional): Filter tasks by their priority level (e.g., HIGH, MEDIUM, LOW).
+
+**userId** (Long, optional): Filter tasks assigned to a specific user.
+
+**description** (String, optional): Filter tasks containing a specific description.
+
+**dueDateFrom** (LocalDateTime, optional): Filter tasks with a due date starting from this date. Format: yyyy-MM-dd HH:mm:ss.
+
+**dueDateTo** (LocalDateTime, optional): Filter tasks with a due date up to this date. Format: yyyy-MM-dd HH:mm:ss.
+
+**createDateFrom** (LocalDateTime, optional): Filter tasks created from this date. Format: yyyy-MM-dd HH:mm:ss.
+
+**createDateTo** (LocalDateTime, optional): Filter tasks created up to this date. Format: yyyy-MM-dd HH:mm:ss.
+
+**page** (int, optional, default: 0): The page number for paginated results.
+
+**size** (int, optional, default: 10): The number of tasks per page.
+
+**Response**:
+```json
+[
+  {
+    "id": 0,
+    "title": "string",
+    "description": "string",
+    "status": "TODO",
+    "priority": "LOW",
+    "assignUser": "string",
+    "createdUser": "string",
+    "dueDate": "2024-11-10T19:05:27.284Z",
+    "createdDate": "2024-11-10T19:05:27.284Z"
+  }
+]
+```
