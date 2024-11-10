@@ -4,10 +4,11 @@ The Task Management System backend is a standalone application designed to handl
 for managing tasks. It provides a set of APIs to perform CRUD operations on tasks and includes authentication,
 authorization, validation, and other features.
 
-## Task Management Database Schema
+## System Archticure 
 
+### DataBase Relation 
 This project defines the structure of a Task Management System using three main tables: app_user, tasks, and task_history. Below is a detailed explanation of the tables and their relationships, along with a visual representation.
-### Table Descriptions
+
 #### 1. app_user Table
 - **id**: Primary Key, a unique identifier for each user.
 - **username**: A string representing the user's name. This field is required.
@@ -30,4 +31,10 @@ This project defines the structure of a Task Management System using three main 
 - taskId: An identifier for the task associated with this history entry.
 - **description**: A detailed description of the history event, up to 1000 characters.
 - **date**: The date and time when the history entry was created.
-- **action**: A string describing the action taken (e.g., 'CREATE', 'UPDATE').
+- **action**: A string describing the action taken (e.g., 'CREATE', 'UPDATE','DELETE').
+#### Relationships
+- Each task must be associated with a user (user_id), and a creator (created_user_id), both referencing app_user(id).
+- The task_history table references app_user(id) to log which user performed an action on a task.
+#### ER Diagram
+[ER](/Image/RrelationDigram.png)
+
