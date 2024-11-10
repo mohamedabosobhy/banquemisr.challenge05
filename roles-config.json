@@ -1,0 +1,5 @@
+{
+  "admin": ["/api/admin/**", "/api/user/**"],
+  "user": ["/api/user/**"],
+  "guest": ["/api/public/**"]
+}

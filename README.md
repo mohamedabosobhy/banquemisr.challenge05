@@ -285,5 +285,13 @@ GET api/user/task/{taskId}
 ```
 - Use API and make sure you can call defferent API 
 
+### Instlation using docker 
+```bash
+
+docker build -t task_managment_system .
+
+docker run -p 8090:8090 -e DATABASE_URL=jdbc:h2:mem:testdb     -e DATABASE_DRIVER_CLASS_NAME=org.h2.Driver      -e DATABASE_USER_NAME=sa      -e DATABASE_PASSWORD=password      -e EMAIL_SERVER_HOST=smtp.example.com     -e EMAIL_SERVER_PORT=587     -e EMAIL_USER_NAME=emailUser    -e EMAIL_PASSWORD=emailPassword    task_managment_system
+```
+
    
    

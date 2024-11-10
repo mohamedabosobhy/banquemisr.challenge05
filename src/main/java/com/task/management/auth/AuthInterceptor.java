@@ -30,7 +30,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         try {
             // Load the roles-config.json file into roleUriMap
             ObjectMapper objectMapper = new ObjectMapper();
-            roleUriMap = objectMapper.readValue(new File("c://sobhy//roles-config.json"), Map.class);
+            roleUriMap = objectMapper.readValue(new File("roles-config.json"), Map.class);
         } catch (Exception e) {
             throw new RuntimeException("Failed to load roles configuration", e);
         }
