@@ -59,7 +59,7 @@ public class UserController {
         return taskService.getTasks(size,page,title,status,priority,description,dueDateFrom,dueDateTo,createDateFrom,createDateTo,userId);
     }
 
-    @GetMapping("/h")
+    @GetMapping("/history")
     //@AuthAnnotation
     public List<HistoryResponse> geth() {
         return taskService.geth();
