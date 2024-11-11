@@ -258,6 +258,23 @@ GET api/user/task/{taskId}
   }
 ]
 ```
+### Notification 
+- system send email notification when a new task assign to user 
+
+![Cretaetask](/Image/createtask.png)
+
+- system send reminder email notification before two days of due date to reminder user with assigned task
+![rmindertasks](/Image/rm.png)
+
+- system send  email notification whne task has updated 
+
+![rmindertasks](/Image/updated.png)
+
+- Enhcment will add email notifications to the database and use cron jobs to send emails outside of the thread of the application or send email notification to queue and hadel send meesage from it
+
+
+ 
+
 ### Instlation in local machine
 - Using H2 database to easy install in local machine (we can use any database, just change configurations in application.priorities and add derviver connector to pom file)
 - Application will automatically create schema
@@ -280,6 +297,7 @@ GET api/user/task/{taskId}
    - EMAIL_PASSWORD
    
  - Run Application 
+- Copy roles-config.json to same path of taskManagmentSystem-1.0.0.jar[roles-config.json: dynamaic load role of users ]
  ```plaintext
  java -jar taskManagmentSystem-1.0.0.jar
 ```
